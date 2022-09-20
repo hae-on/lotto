@@ -4,10 +4,64 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <style></style>
+    <link rel="stylesheet" href="style.css" />
     <title>Lotto</title>
   </head>
   <body>
-    <script></script>
+    <section class="container">
+      <p class="title">💸 로또 번호 추첨기 💸</p>
+      <p class="info">아래 버튼을 눌러 당신의 행운을 확인하세요!</p>
+      <div class="btn">
+        <button class="btn-3d yellow">눌러보세요</button>
+      </div>
+      <div class="ball-container"></div>
+    </section>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+    <script>
+      const button = document.querySelector(".btn-3d");
+      let cnt = 0;
+
+      button.addEventListener("click", function () {
+        // 전체 공 리스트
+        const ballList = document.createElement("div");
+        ballList.classList.add("ball-list");
+
+        // 숫자 랜덤 생성
+        const numbers = _.sampleSize(_.range(1, 46), 6);
+        numbers.sort((a, b) => a - b);
+
+        // 랜덤 List에 있는 수 배분
+        for (i = 0; i < 6; i++) {
+          // 공
+          const ball = document.createElement("div");
+          ball.classList.add("ball");
+          ball.innerText = numbers[i];
+          ballList.appendChild(ball);
+
+          // 공 색상
+          if (numbers[i] < 11) {
+            ball.style.backgroundColor = "#EDA91B";
+          } else if (numbers[i] < 21) {
+            ball.style.backgroundColor = "#325D9C";
+          } else if (numbers[i] < 31) {
+            ball.style.backgroundColor = "#7F8293";
+          } else if (numbers[i] < 41) {
+            ball.style.backgroundColor = "#D2360E";
+          } else {
+            ball.style.backgroundColor = "#1EB53B";
+          }
+        }
+
+        const ballContainer = document.querySelector(".ball-container");
+        ballContainer.appendChild(ballList);
+
+        // 페이지 초기화
+        cnt += 1;
+        if (cnt === 8) {
+          ballContainer.innerHTML = "";
+          cnt = 0;
+        }
+      });
+    </script>
   </body>
 </html>
